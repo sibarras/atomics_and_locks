@@ -56,12 +56,16 @@ impl<T> Deref for Guard<'_, T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
+        // Safety: The very existence of this Guard
+        // guarantees we've exclusively locked the lock.
         unsafe { &*self.lock.value.get() }
     }
 }
 
 impl<T> DerefMut for Guard<'_, T> {
     fn deref_mut(&mut self) -> &mut T {
+        // Safety: The very existence of this Guard
+        // guarantees we've exclusively locked the lock.
         unsafe { &mut *self.lock.value.get() }
     }
 }
